@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكملك المثالي - اكتشف المكمل الغذائي الأنسب لك</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .form-group select, 
+        .form-group input[type="text"],
+        .form-group input[type="range"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .checkbox-group input {
+            margin-left: 10px;
+        }
+        #submitBtn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        #submitBtn:hover {
+            background-color: #2980b9;
+        }
+        #resultsSection {
+            margin-top: 30px;
+            display: none;
+        }
+        .supplement-card {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .warning-note {
+            background-color: #ffecb3;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+            color: #555;
+        }
+        #apiKeyInput {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>اعثر على المكمل الغذائي المثالي لصحتك بسهولة!</h1>
+        </div>
+
+        <div id="apiKeySection">
+            <label for="apiKeyInput">أدخل API Key:</label>
+            <input type="text" id="apiKeyInput" placeholder="أدخل مفتاح API الخاص بك">
+        </div>
+
+        <form id="supplementForm">
+            <div class="form-group">
+                <label>ما هو عمرك؟</label>
+                <select id="ageGroup" required>
+                    <option value="">اختر الفئة العمرية</option>
+                    <option value="under18">أقل من 18 سنة</option>
+                    <option value="18-30">18-30 سنة</option>
+                    <option value="31-50">31-50 سنة</option>
+                    <option value="over50">فوق 50 سنة</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>ما هو هدفك الصحي؟</label>
+                <select id="healthGoal" required>
+                    <option value="">اختر هدفك</option>
+                    <option value="immunity">تعزيز المناعة</option>
+                    <option value="skinHair">تحسين الشعر والبشرة</option>
+                    <option value="muscleBuilding">بناء العضلات</option>
+                    <option value="boneDensity">تقوية العظام</option>
+                    <option value="weightLoss">إنقاص الوزن</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>هل تعاني من أي حالات طبية؟</label>
+                <div class="checkbox-group" id="medicalConditions">
+                    <label><input type="checkbox" name="medicalCondition" value="lactoseIntolerance"> حساسية اللاكتوز</label>
+                    <label><input type="checkbox" name="medicalCondition" value="diabetes"> السكري</label>
+                    <label><input type="checkbox" name="medicalCondition" value="kidneyIssues"> مشاكل في الكلى</label>
+                    <label><input type="checkbox" name="medicalCondition" value="highBloodPressure"> ضغط الدم المرتفع</label>
+                    <label><input type="checkbox" name="medicalCondition" value="none"> لا شيء</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>ما هي عاداتك الغذائية؟</label>
+                <div class="checkbox-group" id="dietType">
+                    <label><input type="checkbox" name="diet" value="vegetarian"> نباتي</label>
+                    <label><input type="checkbox" name="diet" value="meatEater"> يتناول اللحوم</label>
+                    <label><input type="checkbox" name="diet" value="lowCarb"> حمية منخفضة الكربوهيدرات</label>
+                    <label><input type="checkbox" name="diet" value="noSpecificDiet"> لا يتبع نظامًا غذائيًا معينًا</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>هل لديك حساسية تجاه أي مكونات؟</label>
+                <input type="text" id="allergies" placeholder="أدخل المكونات التي تعاني من حساسيتها (اختياري)">
+            </div>
+
+            <div class="form-group">
+                <label>ما هي ميزانيتك للمكملات الغذائية؟</label>
+                <input type="range" id="budget" min="50" max="1000" value="500" step="50">
+                <span id="budgetValue">500 جنيه مصري</span>
+            </div>
+
+            <button type="submit" id="submitBtn">احصل على توصياتك</button>
+        </form>
+
+        <div id="resultsSection">
+            <h2>توصيات المكملات الغذائية</h2>
+            <div id="supplementResults"></div>
+            
+            <div class="warning-note">
+                <strong>تحذير مهم:</strong> يجب استشارة الطبيب قبل البدء بأي مكملات غذائية جديدة.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // التحقق من إدخال API Key
+        const apiKeyInput = document.getElementById('apiKeyInput');
+        const supplementForm = document.getElementById('supplementForm');
+        const resultsSection = document.getElementById('resultsSection');
+        const supplementResults = document.getElementById('supplementResults');
+        const budgetInput = document.getElementById('budget');
+        const budgetValue = document.getElementById('budgetValue');
+
+        // تحديث قيمة الميزانية
+        budgetInput.addEventListener('input', function() {
+            budgetValue.textContent = `${this.value} جنيه مصري`;
+        });
+
+        supplementForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // التحقق من إدخال API Key
+            const apiKey = apiKeyInput.value.trim();
+            if (!apiKey) {
+                alert('يرجى إدخال API Key');
+                return;
+            }
+
+            // جمع البيانات من النموذج
+            const formData = {
+                age: document.getElementById('ageGroup').value,
+                healthGoal: document.getElementById('healthGoal').value,
+                medicalConditions: Array.from(document.querySelectorAll('input[name="medicalCondition"]:checked'))
+                    .map(el => el.value),
+                dietType: Array.from(document.querySelectorAll('input[name="diet"]:checked'))
+                    .map(el => el.value),
+                allergies: document.getElementById('allergies').value,
+                budget: budgetInput.value
+            };
+
+            try {
+                // استدعاء API 
+                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: "llama-3.3-70b-versatile",
+                        messages: [{
+                            role: "system",
+                            content: `أنت مستشار تغذية لمساعدة المستخدمين في اختيار المكملات الغذائية. 
+                            هدفك هو تقديم توصيات مخصصة بناءً على المعلومات التالية:
+                            - العمر: ${formData.age}
+                            - الهدف الصحي: ${formData.healthGoal}
+                            - الحالات الطبية: ${formData.medicalConditions.join(', ')}
+                            - النظام الغذائي: ${formData.dietType.join(', ')}
+                            - الحساسيات: ${formData.allergies}
+                            - الميزانية: ${formData.budget} جنيه مصري
+
+                            يرجى تقديم 3-5 مكملات غذائية مناسبة للسوق المصري مع:
+                            1. اسم المكمل
+                            2. الفوائد الرئيسية
+                            3. طريقة الاستخدام
+                            4. السعر التقريبي
+                            5. أي تحذيرات أو ملاحظات مهمة`
+                        }],
+                        max_tokens: 1000,
+                        temperature: 0.7
+                    })
+                });
+
+                const data = await response.json();
+                const recommendations = data.choices[0].message.content;
+
+                // عرض النتائج
+                supplementResults.innerHTML = recommendations.split('\n').map(rec => `
+                    <div class="supplement-card">
+                        ${rec.trim()}
+                    </div>
+                `).join('');
+
+                resultsSection.style.display = 'block';
+            } catch (error) {
+                console.error('خطأ في استدعاء API:', error);
+                alert('حدث خطأ في جلب التوصيات. يرجى التحقق من API Key وإعدادات الاتصال.');
+            }
+        });
+    </script>
+</body>
+</html>
